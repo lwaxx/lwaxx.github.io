@@ -1,0 +1,114 @@
+.post {
+   margin-top: 60px;
+   margin-bottom: 60px;
+   padding: 25px;
+   -webkit-box-shadow: 0 0 5px rgba(202, 203, 203, .5);
+   -moz-box-shadow: 0 0 5px rgba(202, 203, 204, .5);
+}
+
+//题头
+//.site-meta {
+//    background: $black; 
+//}
+//主标题颜色
+//.brand{
+//    color: #4dfc23
+//}
+//副标题颜色
+//.site-subtitle{
+//    color: #4dfc23
+//}
+
+//TOC目录全部展开
+.post-toc.nav.nav-child {
+  display: block;
+}
+//TOC目录不显示三级以上目录
+.nav-level-3.nav-child {
+  display: none !important;
+}
+
+// 右下角返回顶部按钮样式
+.back-to-top:hover {
+    color: rgb(136, 255, 13);
+	background-color: rgba(0, 0, 0, 0.75); //black
+}
+
+// 文章代码块顶部样式
+.highlight figcaption {
+    margin: 0em;
+    padding: 0.5em;
+    background: #eee;
+    border-bottom: 1px solid #e9e9e9;
+}
+.highlight figcaption a {
+    color: rgb(80, 115, 184);
+}
+
+//代码块复制按钮
+.highlight{
+  //方便copy代码按钮（btn-copy）的定位
+  position: relative;
+}
+.btn-copy {
+    display: inline-block;
+    cursor: pointer;
+    background-color: #eee;
+    background-image: linear-gradient(#fcfcfc,#eee);
+    border: 1px solid #d5d5d5;
+    border-radius: 3px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-appearance: none;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 20px;
+    color: #333;
+    -webkit-transition: opacity .3s ease-in-out;
+    -o-transition: opacity .3s ease-in-out;
+    transition: opacity .3s ease-in-out;
+    padding: 2px 6px;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    opacity: 0;
+}
+.btn-copy span {
+    margin-left: 5px;
+}
+.highlight:hover .btn-copy{
+  opacity: 1;
+}
+
+//修改文章内code样式
+code {color:#c7254e;background:#f9f2f4;border:1px solid #d6d6d6;}
+
+// [Read More]按钮样式: 黑底绿字
+.post-button .btn:hover {
+	
+    color: rgb(136, 255, 13) !important;
+	background-color: rgba(0, 0, 0, 0.75); //black
+}
+
+// 页面底部页码
+.pagination .page-number.current {
+	
+    border-radius: 100%;
+    background-color: rgba(100, 100, 100, 0.75);
+}
+// 页面底部页码, 去除鼠标置于上方时，数字上方的线
+.pagination .prev, .pagination .next, .pagination .page-number {
+    margin-bottom: 10px;
+    border: none;
+	color: rgb(1, 1, 1);
+}
+
+// 页面底部页码，鼠标置于上方，黑底绿字
+.page-number:hover,.page-number:active{
+	color: rgb(136, 255, 13);
+	border-radius: 100%;
+    //background-color: rgba(255, 0, 100, 0.75); //品红
+	background-color: rgba(0, 0, 0, 0.75); //black
+}

@@ -8,7 +8,7 @@ subtitle: ''
 description: ''
 keywords:
 author: 李伟
-language: en
+language: zh-CN
 timezone: ''
 
 # URL
@@ -106,11 +106,26 @@ feed:
   limit: 20
 ## Themes: https://hexo.io/themes/
 theme: next
+# 搜索
+search:
+  path: search.xml
+  field: post
+  format: html
+  limit: 10000
+
+
+# 设置博客单词统计
+symbols_count_time:
+  symbols: true 
+  time: true 
+  total_symbols: true 
+  total_time: true 
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: git
-  repo: git@github.com:lwaxx/lwaxx.github.io.git
-  branch: master
+  repo: 
+     coding: git@e.coding.net:lwaxx/lwaxx-blog/lwaxx.blog.git,master
+     github: git@github.com:lwaxx/lwaxx.github.io.git,master
 

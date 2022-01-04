@@ -4,7 +4,6 @@ date: 2022-01-04 10:47:08
 tags: [Go, Python]
 categories: 后端开发
 ---
-
 ## Box-Muller算法
 > 当x和y是两个独立且服从（0，1）均匀分布的随机变量时，有：
 > <center>Z1 = cos(2\pi x)*\sqrt{-2ln(1-y))}</center>
@@ -14,7 +13,7 @@ categories: 后端开发
 > <center>Z = Z1(Z2)*\sigma +\mu</center>
 <!--more-->
 ​
-### 均值sigma，标准差mu计算:
+均值sigma，标准差mu计算:
 
 > 根据正态分布的 3sigma法则，5-10范围的均值和方差，和[5,6,7,8,9,10]差不多
 > 故：5-10范围的均值：(5+10)/2=7.5

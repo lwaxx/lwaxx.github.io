@@ -21,17 +21,21 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="分类">
-<meta property="og:url" content="http://example.com/categories/index.html">
+  <meta name="description" content="Box-Muller算法 当x和y是两个独立且服从（0，1）均匀分布的随机变量时，有： Z1 &#x3D; cos(2\pi x)*\sqrt{-2ln(1-y))} Z2 &#x3D; sin(2\pi x)*\sqrt{-2ln(1-y))}  Z1和Z2独立且服从标准正态分布，当带入均值和方差时: Z &#x3D; Z1(Z2)*\sigma +\mu">
+<meta property="og:type" content="article">
+<meta property="og:title" content="获取指定范围符合正态分布的随机数Go&#x2F;Python">
+<meta property="og:url" content="http://example.com/2022/01/04/%E8%8E%B7%E5%8F%96%E6%8C%87%E5%AE%9A%E8%8C%83%E5%9B%B4%E7%AC%A6%E5%90%88%E6%AD%A3%E6%80%81%E5%88%86%E5%B8%83%E7%9A%84%E9%9A%8F%E6%9C%BA%E6%95%B0Go-Python/index.html">
 <meta property="og:site_name" content="Lwaxx的博客">
+<meta property="og:description" content="Box-Muller算法 当x和y是两个独立且服从（0，1）均匀分布的随机变量时，有： Z1 &#x3D; cos(2\pi x)*\sqrt{-2ln(1-y))} Z2 &#x3D; sin(2\pi x)*\sqrt{-2ln(1-y))}  Z1和Z2独立且服从标准正态分布，当带入均值和方差时: Z &#x3D; Z1(Z2)*\sigma +\mu">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-01-02T07:11:59.000Z">
-<meta property="article:modified_time" content="2022-01-03T14:05:30.629Z">
+<meta property="article:published_time" content="2022-01-04T02:47:08.000Z">
+<meta property="article:modified_time" content="2022-01-04T03:31:22.133Z">
 <meta property="article:author" content="李伟">
+<meta property="article:tag" content="Go">
+<meta property="article:tag" content="Python">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://example.com/categories/">
+<link rel="canonical" href="http://example.com/2022/01/04/%E8%8E%B7%E5%8F%96%E6%8C%87%E5%AE%9A%E8%8C%83%E5%9B%B4%E7%AC%A6%E5%90%88%E6%AD%A3%E6%80%81%E5%88%86%E5%B8%83%E7%9A%84%E9%9A%8F%E6%9C%BA%E6%95%B0Go-Python/">
 
 
 <script id="page-configurations">
@@ -39,13 +43,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>分类 | Lwaxx的博客
-</title>
+  <title>获取指定范围符合正态分布的随机数Go/Python | Lwaxx的博客</title>
   
 
 
@@ -185,51 +188,157 @@
       <div class="main-inner">
         <div class="content-wrap">
           
-  
-  
 
-          <div class="content page posts-expand">
+          <div class="content post posts-expand">
             
 
     
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/01/04/%E8%8E%B7%E5%8F%96%E6%8C%87%E5%AE%9A%E8%8C%83%E5%9B%B4%E7%AC%A6%E5%90%88%E6%AD%A3%E6%80%81%E5%88%86%E5%B8%83%E7%9A%84%E9%9A%8F%E6%9C%BA%E6%95%B0Go-Python/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/header.png">
+      <meta itemprop="name" content="李伟">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lwaxx的博客">
+    </span>
+
     
-    
-    <div class="post-block" lang="zh-CN">
       <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          获取指定范围符合正态分布的随机数Go/Python
+        </h1>
 
-<h1 class="post-title" itemprop="name headline">分类
-</h1>
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
 
-<div class="post-meta">
+              <time title="创建时间：2022-01-04 10:47:08 / 修改时间：11:31:22" itemprop="dateCreated datePublished" datetime="2022-01-04T10:47:08+08:00">2022-01-04</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/" itemprop="url" rel="index"><span itemprop="name">后端开发</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2022/01/04/%E8%8E%B7%E5%8F%96%E6%8C%87%E5%AE%9A%E8%8C%83%E5%9B%B4%E7%AC%A6%E5%90%88%E6%AD%A3%E6%80%81%E5%88%86%E5%B8%83%E7%9A%84%E9%9A%8F%E6%9C%BA%E6%95%B0Go-Python/" class="post-meta-item leancloud_visitors" data-flag-title="获取指定范围符合正态分布的随机数Go/Python" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/01/04/%E8%8E%B7%E5%8F%96%E6%8C%87%E5%AE%9A%E8%8C%83%E5%9B%B4%E7%AC%A6%E5%90%88%E6%AD%A3%E6%80%81%E5%88%86%E5%B8%83%E7%9A%84%E9%9A%8F%E6%9C%BA%E6%95%B0Go-Python/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/01/04/%E8%8E%B7%E5%8F%96%E6%8C%87%E5%AE%9A%E8%8C%83%E5%9B%B4%E7%AC%A6%E5%90%88%E6%AD%A3%E6%80%81%E5%88%86%E5%B8%83%E7%9A%84%E9%9A%8F%E6%9C%BA%E6%95%B0Go-Python/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>1 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="Box-Muller算法"><a href="#Box-Muller算法" class="headerlink" title="Box-Muller算法"></a>Box-Muller算法</h2><blockquote>
+<p>当x和y是两个独立且服从（0，1）均匀分布的随机变量时，有：</p>
+<center>Z1 = cos(2\pi x)*\sqrt{-2ln(1-y))}</center>
+<center>Z2 = sin(2\pi x)*\sqrt{-2ln(1-y))}</center>
+
+<p>Z1和Z2独立且服从标准正态分布，当带入均值和方差时:</p>
+<center>Z = Z1(Z2)*\sigma +\mu</center>
+</blockquote>
+<span id="more"></span>
+<p>​<br>均值sigma，标准差mu计算:</p>
+<blockquote>
+<p>根据正态分布的 3sigma法则，5-10范围的均值和方差，和[5,6,7,8,9,10]差不多<br>故：5-10范围的均值：(5+10)/2=7.5<br>标准差：(10-7.5)/3<br>s = [5,6,7,8,9,10]<br>mu = np.mean(s) # 均值<br>sigma = np.std(s) # 标准差<br>var = np.var(s) # 方差</p>
+</blockquote>
+<p>go生成符合正态分布随机数：</p>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;math&quot;</span></span><br><span class="line">	<span class="string">&quot;math/rand&quot;</span></span><br><span class="line">	<span class="string">&quot;time&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">GetGaussRandomNum</span><span class="params">(min, max <span class="keyword">int64</span>)</span> <span class="title">int64</span></span> &#123;</span><br><span class="line">	σ := (<span class="keyword">float64</span>(min) + <span class="keyword">float64</span>(max)) / <span class="number">2</span></span><br><span class="line">	μ := (<span class="keyword">float64</span>(max) - σ) / <span class="number">3</span></span><br><span class="line">	rand.Seed(time.Now().UnixNano())</span><br><span class="line">	x := rand.Float64()</span><br><span class="line">	x1 := rand.Float64()</span><br><span class="line">	a := math.Cos(<span class="number">2</span>*math.Pi*x) * math.Sqrt((<span class="number">-2</span>)*math.Log(x1))</span><br><span class="line">	result := a*μ + σ</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">int64</span>(result)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">1</span>; i &lt; <span class="number">1000</span>; i++ &#123;</span><br><span class="line">		result := GetGaussRandomNum(<span class="number">30</span>, <span class="number">60</span>)</span><br><span class="line">		fmt.Println(result)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>python生成符合正态分布随机数：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> seaborn <span class="keyword">as</span> sns</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 方法一</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getGaussRandomNum</span>(<span class="params"><span class="built_in">min</span>, <span class="built_in">max</span></span>):</span></span><br><span class="line">    <span class="comment"># 比如 生成   50-100  范围内的正态分布的数，均值为75</span></span><br><span class="line">    <span class="comment"># 据 3 sigma 法则，取标准差为 （100-75）/3 = 8.33</span></span><br><span class="line">    <span class="comment"># mu, sigma = 75, 8.33</span></span><br><span class="line">    <span class="comment"># 30-60 mu=45 sig=(60-45)/3=5</span></span><br><span class="line">    mu = (<span class="built_in">min</span> + <span class="built_in">max</span>) / <span class="number">2</span></span><br><span class="line">    sigma = (<span class="built_in">max</span> - mu) / <span class="number">3</span></span><br><span class="line">    s = np.random.normal(mu, sigma, <span class="number">1</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">int</span>(s)</span><br><span class="line">    <span class="comment"># sns.set_palette(&quot;hls&quot;) #设置所有图的颜色，使用hls色彩空间</span></span><br><span class="line">    <span class="comment"># sns.distplot(s,color=&quot;r&quot;,bins=1000,kde=True) #绘制直方图，color设置颜色，bins设置直方图的划分数</span></span><br><span class="line">    <span class="comment"># plt.show() #显示验证结果</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 方法二</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getGaussRandomNum1</span>(<span class="params"><span class="built_in">min</span>, <span class="built_in">max</span></span>):</span></span><br><span class="line">    mu = (<span class="built_in">min</span> + <span class="built_in">max</span>) / <span class="number">2</span></span><br><span class="line">    sigma = (<span class="built_in">max</span> - mu) / <span class="number">3</span></span><br><span class="line">    s = random.gauss(mu, sigma)</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">int</span>(s)</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/Go/" rel="tag"><i class="fa fa-tag"></i> Go</a>
+              <a href="/tags/Python/" rel="tag"><i class="fa fa-tag"></i> Python</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/01/03/hello-world/" rel="prev" title="Hello World">
+      <i class="fa fa-chevron-left"></i> Hello World
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/01/04/GO%E8%AF%AD%E8%A8%80%E6%97%B6%E9%97%B4%E8%BD%AC%E6%8D%A2/" rel="next" title="GO语言时间转换">
+      GO语言时间转换 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
   
 
-</div>
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
-          <div class="category-all-page">
-            <div class="category-all-title">
-              目前共计 1 个分类
-            </div>
-            <div class="category-all">
-              <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/">后端开发</a><span class="category-list-count">5</span></li></ul>
-            </div>
-          </div>
-        
-      </div>
-      
-      
-      
-    </div>
-    
-
-    
-    
-    
 
 
           </div>
@@ -281,6 +390,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Box-Muller%E7%AE%97%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">Box-Muller算法</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

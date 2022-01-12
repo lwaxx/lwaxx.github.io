@@ -1,24 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Hello World</title>
-    <url>/2022/01/03/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+    <title>mysql批量插入数据 excutemany</title>
+    <url>/2022/01/04/mysql%E6%89%B9%E9%87%8F%E6%8F%92%E5%85%A5%E6%95%B0%E6%8D%AE-excutemany/</url>
+    <content><![CDATA[<blockquote>
+<p>问题：<br>往数据库批量插入10条数据的时候，在for循环里面使用excute插入，接口请求耗时&gt;1s，严重影响效率；</p>
+</blockquote>
+<span id="more"></span>
+<blockquote>
+<p>遂考虑使用excutemany批量插入，接口请求耗时400ms</p>
+</blockquote>
+<blockquote>
+<p>逐条插入：cursor.excute()<br>批量插入：cursor.excutemany()<br>使用：executemany(templet, args)<br>templet：sql模板字符串，例如：insert into table(id,name) values(%s,%s)<br>args: 模板字符串中的参数，是一个list或者tuple, eg: [(1,”a”),(2,”b”)] 或者 ((1,”a”),(2,”b”))</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 实例-节选</span></span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line">draw_list = [...]   <span class="comment"># len(draw_list) = 10</span></span><br><span class="line">sql = <span class="string">&#x27;&#x27;&#x27; insert into table(remix_uid, stage, tp, price, draw_result) values (%s,%s,%s,%s,%s)&#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line">cursor = db.cursor()</span><br><span class="line">start_time = time.time()</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> draw_list:</span><br><span class="line">    cursor.excute(sql, [args])</span><br><span class="line">end_time = time.time() - start_time</span><br><span class="line"><span class="built_in">print</span>(end_time)  <span class="comment"># &gt;1s</span></span><br></pre></td></tr></table></figure>
+
+<p>修改为以下：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">cursor = db.cursor()</span><br><span class="line">start_time = time.time()</span><br><span class="line"></span><br><span class="line">data = ((item[<span class="string">&#x27;&#x27;</span>], item[<span class="string">&#x27;&#x27;</span>], ...) <span class="keyword">for</span> item <span class="keyword">in</span> draw_list)</span><br><span class="line">cursor.executemany(sql, data)</span><br><span class="line"></span><br><span class="line">end_time = time.time() - start_time</span><br><span class="line"><span class="built_in">print</span>(end_time)  <span class="comment"># 400ms</span></span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>后端开发</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+        <tag>Mysql</tag>
+        <tag>Databse</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>百度搜索爬取图片</title>
+    <url>/2022/01/12/%E7%99%BE%E5%BA%A6%E6%90%9C%E7%B4%A2%E7%88%AC%E5%8F%96%E5%9B%BE%E7%89%87/</url>
+    <content><![CDATA[<p>根据百度搜索内容爬取图片</p>
 <span id="more"></span>
 
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># coding=utf-8</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;根据搜索词下载百度图片&quot;&quot;&quot;</span></span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> urllib</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"> </span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getPage</span>(<span class="params">keyword,page,n</span>):</span></span><br><span class="line">    page=page*n</span><br><span class="line">    keyword=urllib.parse.quote(keyword, safe=<span class="string">&#x27;/&#x27;</span>)</span><br><span class="line">    url_begin= <span class="string">&quot;http://image.baidu.com/search/flip?tn=baiduimage&amp;ie=utf-8&amp;word=&quot;</span></span><br><span class="line">    url = url_begin+ keyword + <span class="string">&quot;&amp;pn=&quot;</span> +<span class="built_in">str</span>(page) + <span class="string">&quot;&amp;gsm=&quot;</span>+<span class="built_in">str</span>(<span class="built_in">hex</span>(page))+<span class="string">&quot;&amp;ct=&amp;ic=0&amp;lm=-1&amp;width=0&amp;height=0&quot;</span></span><br><span class="line">    <span class="keyword">return</span> url</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_onepage_urls</span>(<span class="params">onepageurl</span>):</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        html = requests.get(onepageurl).text</span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">        <span class="built_in">print</span>(e)</span><br><span class="line">        pic_urls = []</span><br><span class="line">        <span class="keyword">return</span> pic_urls</span><br><span class="line">    pic_urls = re.findall(<span class="string">&#x27;&quot;objURL&quot;:&quot;(.*?)&quot;,&#x27;</span>, html, re.S)</span><br><span class="line">    <span class="keyword">return</span> pic_urls</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">down_pic</span>(<span class="params">pic_urls, keyword</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;给出图片链接列表, 下载所有图片&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">for</span> i, pic_url <span class="keyword">in</span> <span class="built_in">enumerate</span>(pic_urls):</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            pic = requests.get(pic_url, timeout=<span class="number">15</span>)</span><br><span class="line">            string =<span class="built_in">str</span>(i + <span class="number">1</span>) + <span class="string">&#x27;.jpg&#x27;</span></span><br><span class="line">            <span class="keyword">if</span> os.path.exists(<span class="string">&#x27;./&#x27;</span> + keyword):</span><br><span class="line">                <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;./&#x27;</span> + keyword + <span class="string">&#x27;/&#x27;</span> + string, <span class="string">&#x27;wb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">                    f.write(pic.content)</span><br><span class="line">                    <span class="built_in">print</span>(<span class="string">&#x27;成功下载第%s张图片: %s&#x27;</span> % (<span class="built_in">str</span>(i + <span class="number">1</span>), <span class="built_in">str</span>(pic_url)))</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                os.mkdir(<span class="string">&#x27;./&#x27;</span> + keyword)</span><br><span class="line">                <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;./&#x27;</span> + keyword + <span class="string">&#x27;/&#x27;</span> + string, <span class="string">&#x27;wb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">                    f.write(pic.content)</span><br><span class="line">                    <span class="built_in">print</span>(<span class="string">&#x27;成功下载第%s张图片: %s&#x27;</span> % (<span class="built_in">str</span>(i + <span class="number">1</span>), <span class="built_in">str</span>(pic_url)))</span><br><span class="line">        <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&#x27;下载第%s张图片时失败: %s&#x27;</span> % (<span class="built_in">str</span>(i + <span class="number">1</span>), <span class="built_in">str</span>(pic_url)))</span><br><span class="line">            <span class="built_in">print</span>(e)</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    keyword = <span class="string">&#x27;天海翼&#x27;</span>  <span class="comment"># 关键词, 改为你想输入的词即可, 相当于在百度图片里搜索一样</span></span><br><span class="line">    page_begin=<span class="number">0</span></span><br><span class="line">    page_number=<span class="number">30</span></span><br><span class="line">    image_number=<span class="number">3</span></span><br><span class="line">    all_pic_urls = []</span><br><span class="line">    <span class="keyword">while</span> <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">if</span> page_begin&gt;image_number:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;第%d次请求数据&quot;</span>,[page_begin])</span><br><span class="line">        url=getPage(keyword,page_begin,page_number)</span><br><span class="line">        onepage_urls= get_onepage_urls(url)</span><br><span class="line">        page_begin += <span class="number">1</span></span><br><span class="line"> </span><br><span class="line">        all_pic_urls.extend(onepage_urls)</span><br><span class="line"> </span><br><span class="line">    down_pic(<span class="built_in">list</span>(<span class="built_in">set</span>(all_pic_urls)), keyword)</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>爬虫</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>python时间时间换算 精确到毫秒</title>
+    <url>/2022/01/04/python%E6%97%B6%E9%97%B4%E6%97%B6%E9%97%B4%E6%8D%A2%E7%AE%97-%E7%B2%BE%E7%A1%AE%E5%88%B0%E6%AF%AB%E7%A7%92/</url>
+    <content><![CDATA[<p><strong>python时间时间换算 精确到毫秒</strong></p>
+<span id="more"></span>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> datetime</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">time_stamp1</span>():</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    时间戳  精确到毫秒，17位</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    ct = time.time()</span><br><span class="line">    local_time = time.localtime(ct)</span><br><span class="line">    data_head = time.strftime(<span class="string">&quot;%Y%m%d%H%M%S&quot;</span>, local_time)</span><br><span class="line">    data_secs = (ct - <span class="built_in">int</span>(ct)) * <span class="number">1000</span></span><br><span class="line">    time_stamp = <span class="string">&quot;%s%03d&quot;</span> % (data_head, data_secs)      <span class="comment"># 17位时间戳</span></span><br><span class="line">    <span class="keyword">return</span> time_stamp</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">time_stamp2</span>():</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    时间戳  精确到毫秒，20位</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    time = datetime.datetime.now().strftime(<span class="string">&#x27;%Y%m%d%H%M%S%f&#x27;</span>)       <span class="comment"># 20位时间戳</span></span><br><span class="line">    random_digit = <span class="string">&#x27;&#x27;</span>.join(<span class="built_in">str</span>(random.choice(<span class="built_in">range</span>(<span class="number">8</span>))) <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">8</span>))      <span class="comment"># 8位随机数</span></span><br><span class="line">    <span class="keyword">return</span> (time+random_digit)</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>后端开发</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Go语言生成随机数</title>
+    <url>/2022/01/04/Go%E8%AF%AD%E8%A8%80%E7%94%9F%E6%88%90%E9%9A%8F%E6%9C%BA%E6%95%B0/</url>
+    <content><![CDATA[<p><strong>使用go语言生成随机数</strong></p>
+<span id="more"></span>
 
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<figure class="highlight golang"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;math/rand&quot;</span></span><br><span class="line">	<span class="string">&quot;time&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="comment">// go取随机数需要指定一个随机种子</span></span><br><span class="line">	<span class="comment">// 种子一般使用当前的系统时间，这是完全随机的。</span></span><br><span class="line">	rand.Seed(time.Now().UnixNano())</span><br><span class="line">	num := rand.Intn(<span class="number">10</span><span class="number">-5</span>+<span class="number">1</span>) + <span class="number">5</span> <span class="comment">//[5,10]</span></span><br><span class="line">	fmt.Println(num)</span><br><span class="line">	fmt.Println(<span class="string">&quot;==========分界线==========&quot;</span>)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 循环100次取值</span></span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">100</span>; i++ &#123;</span><br><span class="line">		rand.Seed(time.Now().UnixNano())</span><br><span class="line">		num := rand.Intn(<span class="number">10</span><span class="number">-5</span>+<span class="number">1</span>) + <span class="number">5</span> <span class="comment">//[5,10)</span></span><br><span class="line">		fmt.Println(num)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>后端开发</category>
+      </categories>
+      <tags>
+        <tag>Go</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>GO语言时间转换</title>
+    <url>/2022/01/04/GO%E8%AF%AD%E8%A8%80%E6%97%B6%E9%97%B4%E8%BD%AC%E6%8D%A2/</url>
+    <content><![CDATA[<p><strong>使用go语言进行不同时间类型之间的转换</strong></p>
+<span id="more"></span>
 
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
+<figure class="highlight golang"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;time&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="comment">// 2021-07-23 15:36:00.346234 +0800 CST m=+0.000174001</span></span><br><span class="line">	now := time.Now()</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 格式化 2021-07-23 15:36:00</span></span><br><span class="line">	time1 := time.Now().Format(<span class="string">&quot;2006-01-02 15:04:05&quot;</span>)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// unix时间戳格式化</span></span><br><span class="line">	time2 := now.Unix()                                        <span class="comment">// 1627025820</span></span><br><span class="line">	time3 := time.Unix(time2, <span class="number">0</span>).Format(<span class="string">&quot;2006-01-02 15:04:05&quot;</span>) <span class="comment">// 2021-07-23 15:37:00</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">// 当前时间加/减一分钟</span></span><br><span class="line">	time4 := now.Add(time.Minute * time.Duration(<span class="number">1</span>))</span><br><span class="line">	time5 := now.Add(-(time.Minute * time.Duration(<span class="number">1</span>)))</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 时间比较大小，先转为以下格式</span></span><br><span class="line">	<span class="comment">// 1970-01-01 08:00:00 +0800 CST</span></span><br><span class="line"></span><br><span class="line">	time6, _ := time.ParseInLocation(<span class="string">&quot;2006-01-02 15:04:05&quot;</span>, time3, time.Local)</span><br><span class="line">	<span class="keyword">if</span> now.Before(time6) &#123;</span><br><span class="line">		fmt.Println(<span class="string">&quot;true&quot;</span>)</span><br><span class="line">	&#125; <span class="keyword">else</span> <span class="keyword">if</span> now.After(time6) &#123;</span><br><span class="line">		fmt.Println(<span class="string">&quot;false&quot;</span>)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>后端开发</category>
+      </categories>
+      <tags>
+        <tag>Go</tag>
+      </tags>
   </entry>
   <entry>
     <title>获取指定范围符合正态分布的随机数Go/Python</title>
@@ -50,74 +115,23 @@
       </tags>
   </entry>
   <entry>
-    <title>GO语言时间转换</title>
-    <url>/2022/01/04/GO%E8%AF%AD%E8%A8%80%E6%97%B6%E9%97%B4%E8%BD%AC%E6%8D%A2/</url>
-    <content><![CDATA[<p><strong>使用go语言进行不同时间类型之间的转换</strong></p>
+    <title>Hello World</title>
+    <url>/2022/01/03/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
 <span id="more"></span>
 
-<figure class="highlight golang"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;time&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="comment">// 2021-07-23 15:36:00.346234 +0800 CST m=+0.000174001</span></span><br><span class="line">	now := time.Now()</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 格式化 2021-07-23 15:36:00</span></span><br><span class="line">	time1 := time.Now().Format(<span class="string">&quot;2006-01-02 15:04:05&quot;</span>)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// unix时间戳格式化</span></span><br><span class="line">	time2 := now.Unix()                                        <span class="comment">// 1627025820</span></span><br><span class="line">	time3 := time.Unix(time2, <span class="number">0</span>).Format(<span class="string">&quot;2006-01-02 15:04:05&quot;</span>) <span class="comment">// 2021-07-23 15:37:00</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">// 当前时间加/减一分钟</span></span><br><span class="line">	time4 := now.Add(time.Minute * time.Duration(<span class="number">1</span>))</span><br><span class="line">	time5 := now.Add(-(time.Minute * time.Duration(<span class="number">1</span>)))</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 时间比较大小，先转为以下格式</span></span><br><span class="line">	<span class="comment">// 1970-01-01 08:00:00 +0800 CST</span></span><br><span class="line"></span><br><span class="line">	time6, _ := time.ParseInLocation(<span class="string">&quot;2006-01-02 15:04:05&quot;</span>, time3, time.Local)</span><br><span class="line">	<span class="keyword">if</span> now.Before(time6) &#123;</span><br><span class="line">		fmt.Println(<span class="string">&quot;true&quot;</span>)</span><br><span class="line">	&#125; <span class="keyword">else</span> <span class="keyword">if</span> now.After(time6) &#123;</span><br><span class="line">		fmt.Println(<span class="string">&quot;false&quot;</span>)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>后端开发</category>
-      </categories>
-      <tags>
-        <tag>Go</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>mysql批量插入数据 excutemany</title>
-    <url>/2022/01/04/mysql%E6%89%B9%E9%87%8F%E6%8F%92%E5%85%A5%E6%95%B0%E6%8D%AE-excutemany/</url>
-    <content><![CDATA[<blockquote>
-<p>问题：<br>往数据库批量插入10条数据的时候，在for循环里面使用excute插入，接口请求耗时&gt;1s，严重影响效率；</p>
-</blockquote>
-<span id="more"></span>
-<blockquote>
-<p>遂考虑使用excutemany批量插入，接口请求耗时400ms</p>
-</blockquote>
-<blockquote>
-<p>逐条插入：cursor.excute()<br>批量插入：cursor.excutemany()<br>使用：executemany(templet, args)<br>templet：sql模板字符串，例如：insert into table(id,name) values(%s,%s)<br>args: 模板字符串中的参数，是一个list或者tuple, eg: [(1,”a”),(2,”b”)] 或者 ((1,”a”),(2,”b”))</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 实例-节选</span></span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line">draw_list = [...]   <span class="comment"># len(draw_list) = 10</span></span><br><span class="line">sql = <span class="string">&#x27;&#x27;&#x27; insert into table(remix_uid, stage, tp, price, draw_result) values (%s,%s,%s,%s,%s)&#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line">cursor = db.cursor()</span><br><span class="line">start_time = time.time()</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> draw_list:</span><br><span class="line">    cursor.excute(sql, [args])</span><br><span class="line">end_time = time.time() - start_time</span><br><span class="line"><span class="built_in">print</span>(end_time)  <span class="comment"># &gt;1s</span></span><br></pre></td></tr></table></figure>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
 
-<p>修改为以下：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">cursor = db.cursor()</span><br><span class="line">start_time = time.time()</span><br><span class="line"></span><br><span class="line">data = ((item[<span class="string">&#x27;&#x27;</span>], item[<span class="string">&#x27;&#x27;</span>], ...) <span class="keyword">for</span> item <span class="keyword">in</span> draw_list)</span><br><span class="line">cursor.executemany(sql, data)</span><br><span class="line"></span><br><span class="line">end_time = time.time() - start_time</span><br><span class="line"><span class="built_in">print</span>(end_time)  <span class="comment"># 400ms</span></span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
 
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
 ]]></content>
-      <categories>
-        <category>后端开发</category>
-      </categories>
-      <tags>
-        <tag>Python</tag>
-        <tag>Mysql</tag>
-        <tag>Databse</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Go语言生成随机数</title>
-    <url>/2022/01/04/Go%E8%AF%AD%E8%A8%80%E7%94%9F%E6%88%90%E9%9A%8F%E6%9C%BA%E6%95%B0/</url>
-    <content><![CDATA[<p><strong>使用go语言生成随机数</strong></p>
-<span id="more"></span>
-
-<figure class="highlight golang"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;math/rand&quot;</span></span><br><span class="line">	<span class="string">&quot;time&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="comment">// go取随机数需要指定一个随机种子</span></span><br><span class="line">	<span class="comment">// 种子一般使用当前的系统时间，这是完全随机的。</span></span><br><span class="line">	rand.Seed(time.Now().UnixNano())</span><br><span class="line">	num := rand.Intn(<span class="number">10</span><span class="number">-5</span>+<span class="number">1</span>) + <span class="number">5</span> <span class="comment">//[5,10]</span></span><br><span class="line">	fmt.Println(num)</span><br><span class="line">	fmt.Println(<span class="string">&quot;==========分界线==========&quot;</span>)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 循环100次取值</span></span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">100</span>; i++ &#123;</span><br><span class="line">		rand.Seed(time.Now().UnixNano())</span><br><span class="line">		num := rand.Intn(<span class="number">10</span><span class="number">-5</span>+<span class="number">1</span>) + <span class="number">5</span> <span class="comment">//[5,10)</span></span><br><span class="line">		fmt.Println(num)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>后端开发</category>
-      </categories>
-      <tags>
-        <tag>Go</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>python时间时间换算 精确到毫秒</title>
-    <url>/2022/01/04/python%E6%97%B6%E9%97%B4%E6%97%B6%E9%97%B4%E6%8D%A2%E7%AE%97-%E7%B2%BE%E7%A1%AE%E5%88%B0%E6%AF%AB%E7%A7%92/</url>
-    <content><![CDATA[<p><strong>python时间时间换算 精确到毫秒</strong></p>
-<span id="more"></span>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> datetime</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">time_stamp1</span>():</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    时间戳  精确到毫秒，17位</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    ct = time.time()</span><br><span class="line">    local_time = time.localtime(ct)</span><br><span class="line">    data_head = time.strftime(<span class="string">&quot;%Y%m%d%H%M%S&quot;</span>, local_time)</span><br><span class="line">    data_secs = (ct - <span class="built_in">int</span>(ct)) * <span class="number">1000</span></span><br><span class="line">    time_stamp = <span class="string">&quot;%s%03d&quot;</span> % (data_head, data_secs)      <span class="comment"># 17位时间戳</span></span><br><span class="line">    <span class="keyword">return</span> time_stamp</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">time_stamp2</span>():</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    时间戳  精确到毫秒，20位</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    time = datetime.datetime.now().strftime(<span class="string">&#x27;%Y%m%d%H%M%S%f&#x27;</span>)       <span class="comment"># 20位时间戳</span></span><br><span class="line">    random_digit = <span class="string">&#x27;&#x27;</span>.join(<span class="built_in">str</span>(random.choice(<span class="built_in">range</span>(<span class="number">8</span>))) <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">8</span>))      <span class="comment"># 8位随机数</span></span><br><span class="line">    <span class="keyword">return</span> (time+random_digit)</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>后端开发</category>
-      </categories>
-      <tags>
-        <tag>Python</tag>
-      </tags>
   </entry>
 </search>

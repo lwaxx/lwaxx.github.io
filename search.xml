@@ -44,6 +44,9 @@
 <p>1.dev和master分支先更新到最新，然后切换到dev分支；<br>2.git log;<br>3.git rebase master;<br>4.git status;<br>5.解决冲突;<br>6.git add [冲突文件]；<br>7.git rebase –continue;<br>8.:wq（保存）<br>9.继续git status;        (重复知道所有冲突解决完)<br>10.git rebase -i [commit名称（dev分支第一次commit之前的名称，非自己的）];<br>11.将前面的pick改为f（除了第一次commit的);</p>
 </blockquote>
 ]]></content>
+      <categories>
+        <category>Git</category>
+      </categories>
       <tags>
         <tag>git</tag>
         <tag>github</tag>

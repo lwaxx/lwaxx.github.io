@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2022-03-02T08:08:10.005Z</updated>
+  <updated>2022-03-02T08:14:46.427Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="http://example.com/2022/03/02/%E5%B7%A5%E4%BD%9C%E4%B8%AD%E5%B8%B8%E7%94%A8%E5%88%B0%E7%9A%84github%E5%91%BD%E4%BB%A4/"/>
     <id>http://example.com/2022/03/02/%E5%B7%A5%E4%BD%9C%E4%B8%AD%E5%B8%B8%E7%94%A8%E5%88%B0%E7%9A%84github%E5%91%BD%E4%BB%A4/</id>
     <published>2022-03-02T08:05:06.000Z</published>
-    <updated>2022-03-02T08:08:10.005Z</updated>
+    <updated>2022-03-02T08:14:46.427Z</updated>
     
     <content type="html"><![CDATA[<p>工作中常用到的github命令</p><span id="more"></span><h2 id="从master新建分支"><a href="#从master新建分支" class="headerlink" title="从master新建分支"></a>从master新建分支</h2><blockquote><p>1.git checkout master                       切换到master分支<br>2.git pull                                  更新到最新代码<br>3.git checkout -b dev                       创建新分支并切换到该分支<br>4.git push origin dev                       推送新分支到远程仓库<br>5.git branch –set-upstream-to=origin/dev   关联远程仓库<br>6.git pull                                  尝试拉取验证</p></blockquote><h2 id="dev分支合并代码到master"><a href="#dev分支合并代码到master" class="headerlink" title="dev分支合并代码到master"></a>dev分支合并代码到master</h2><blockquote><p>1.git checkout maste;<br>2.git pull origin master;<br>3.git merge –squash dev;<br>4.git status;<br>5.git stash;  (暂存起来，查看解决的冲突有没有问题)<br>6.git stash pop;<br>7.git diff;   (确认没问题，直接添加)<br>8.git add .;<br>9.git commit -m “feat: xxxx”;<br>10.git log;<br>11.git push origin master;</p></blockquote><h2 id="git-rebase（dev–自己，-master–想要比对的）"><a href="#git-rebase（dev–自己，-master–想要比对的）" class="headerlink" title="git rebase（dev–自己， master–想要比对的）"></a>git rebase（dev–自己， master–想要比对的）</h2><blockquote><p>1.dev和master分支先更新到最新，然后切换到dev分支；<br>2.git log;<br>3.git rebase master;<br>4.git status;<br>5.解决冲突;<br>6.git add [冲突文件]；<br>7.git rebase –continue;<br>8.:wq（保存）<br>9.继续git status;        (重复知道所有冲突解决完)<br>10.git rebase -i [commit名称（dev分支第一次commit之前的名称，非自己的）];<br>11.将前面的pick改为f（除了第一次commit的);</p></blockquote>]]></content>
     
@@ -29,6 +29,8 @@
     <summary type="html">&lt;p&gt;工作中常用到的github命令&lt;/p&gt;</summary>
     
     
+    
+    <category term="Git" scheme="http://example.com/categories/Git/"/>
     
     
     <category term="git" scheme="http://example.com/tags/git/"/>

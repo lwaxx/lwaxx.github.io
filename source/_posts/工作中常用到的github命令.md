@@ -2,6 +2,7 @@
 title: 工作中常用到的github命令
 date: 2022-03-02 16:05:06
 tags: [git, github]
+categories: Git
 ---
 工作中常用到的github命令
 <!--more-->

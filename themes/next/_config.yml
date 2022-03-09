@@ -178,7 +178,7 @@ site_state: true
 # Key is the link label showing to end users.
 # Value before `||` delimiter is the target permalink, value after `||` delimiter is the name of Font Awesome icon.
 social:
-  GitHub: https://github.com/youlwaxxrname || github
+  GitHub: https://github.com/lwaxx || github
   CSDN: https://blog.csdn.net/qq_41586251?spm=1011.2124.3001.5343 || crosshairs
   #E-Mail: mailto:yourname@gmail.com || envelope
   #Weibo: https://weibo.com/yourname || weibo

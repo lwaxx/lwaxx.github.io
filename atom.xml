@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2022-03-09T07:30:59.270Z</updated>
+  <updated>2022-05-18T08:05:48.498Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>go语言除法四舍五入</title>
+    <link href="http://example.com/2022/05/18/go%E8%AF%AD%E8%A8%80%E9%99%A4%E6%B3%95%E5%9B%9B%E8%88%8D%E4%BA%94%E5%85%A5/"/>
+    <id>http://example.com/2022/05/18/go%E8%AF%AD%E8%A8%80%E9%99%A4%E6%B3%95%E5%9B%9B%E8%88%8D%E4%BA%94%E5%85%A5/</id>
+    <published>2022-05-18T08:03:13.000Z</published>
+    <updated>2022-05-18T08:05:48.498Z</updated>
+    
+    <content type="html"><![CDATA[<p>加0.5后向下取整</p><span id="more"></span><figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">round</span><span class="params">(x <span class="keyword">float64</span>)</span> <span class="title">int64</span></span> &#123;</span><br><span class="line"><span class="keyword">return</span> <span class="keyword">int64</span>(math.Floor(x + <span class="number">0.5</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;加0.5后向下取整&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="后端开发" scheme="http://example.com/categories/%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/"/>
+    
+    
+    <category term="Go" scheme="http://example.com/tags/Go/"/>
+    
+  </entry>
   
   <entry>
     <title>python时间格式化/时间格式转换</title>

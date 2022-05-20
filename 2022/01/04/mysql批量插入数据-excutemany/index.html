@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.2.0">
+<meta name="generator" content="Hexo 4.2.1">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/castle-32-32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/castle-16-16">
@@ -18,7 +18,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="问题：往数据库批量插入10条数据的时候，在for循环里面使用excute插入，接口请求耗时&gt;1s，严重影响效率；">
@@ -84,7 +84,7 @@
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
+  <div class="container">
     <div class="headband"></div>
 
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -273,7 +273,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>803</span>
+              <span>753</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -295,17 +295,17 @@
         <blockquote>
 <p>问题：<br>往数据库批量插入10条数据的时候，在for循环里面使用excute插入，接口请求耗时&gt;1s，严重影响效率；</p>
 </blockquote>
-<span id="more"></span>
+<a id="more"></a>
 <blockquote>
 <p>遂考虑使用excutemany批量插入，接口请求耗时400ms</p>
 </blockquote>
 <blockquote>
 <p>逐条插入：cursor.excute()<br>批量插入：cursor.excutemany()<br>使用：executemany(templet, args)<br>templet：sql模板字符串，例如：insert into table(id,name) values(%s,%s)<br>args: 模板字符串中的参数，是一个list或者tuple, eg: [(1,”a”),(2,”b”)] 或者 ((1,”a”),(2,”b”))</p>
 </blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 实例-节选</span></span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line">draw_list = [...]   <span class="comment"># len(draw_list) = 10</span></span><br><span class="line">sql = <span class="string">&#x27;&#x27;&#x27; insert into table(remix_uid, stage, tp, price, draw_result) values (%s,%s,%s,%s,%s)&#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line">cursor = db.cursor()</span><br><span class="line">start_time = time.time()</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> draw_list:</span><br><span class="line">    cursor.excute(sql, [args])</span><br><span class="line">end_time = time.time() - start_time</span><br><span class="line"><span class="built_in">print</span>(end_time)  <span class="comment"># &gt;1s</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 实例-节选</span></span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line">draw_list = [...]   <span class="comment"># len(draw_list) = 10</span></span><br><span class="line">sql = <span class="string">''' insert into table(remix_uid, stage, tp, price, draw_result) values (%s,%s,%s,%s,%s)'''</span></span><br><span class="line"></span><br><span class="line">cursor = db.cursor()</span><br><span class="line">start_time = time.time()</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> draw_list:</span><br><span class="line">    cursor.excute(sql, [args])</span><br><span class="line">end_time = time.time() - start_time</span><br><span class="line">print(end_time)  <span class="comment"># &gt;1s</span></span><br></pre></td></tr></table></figure>
 
 <p>修改为以下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">cursor = db.cursor()</span><br><span class="line">start_time = time.time()</span><br><span class="line"></span><br><span class="line">data = ((item[<span class="string">&#x27;&#x27;</span>], item[<span class="string">&#x27;&#x27;</span>], ...) <span class="keyword">for</span> item <span class="keyword">in</span> draw_list)</span><br><span class="line">cursor.executemany(sql, data)</span><br><span class="line"></span><br><span class="line">end_time = time.time() - start_time</span><br><span class="line"><span class="built_in">print</span>(end_time)  <span class="comment"># 400ms</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">cursor = db.cursor()</span><br><span class="line">start_time = time.time()</span><br><span class="line"></span><br><span class="line">data = ((item[<span class="string">''</span>], item[<span class="string">''</span>], ...) <span class="keyword">for</span> item <span class="keyword">in</span> draw_list)</span><br><span class="line">cursor.executemany(sql, data)</span><br><span class="line"></span><br><span class="line">end_time = time.time() - start_time</span><br><span class="line">print(end_time)  <span class="comment"># 400ms</span></span><br></pre></td></tr></table></figure>
 
 
     </div>
@@ -492,13 +492,13 @@ setInterval("createtime()",250);
       <i class="fa fa-area-chart"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">9k</span>
+    <span title="站点总字数">8k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">8 分钟</span>
+    <span title="站点阅读时长">7 分钟</span>
 
 
 </div>
@@ -541,12 +541,8 @@ setInterval("createtime()",250);
   <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
   <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
 
 <script src="/js/utils.js"></script>
-
-<script src="/js/motion.js"></script>
 
 
 <script src="/js/schemes/pisces.js"></script>

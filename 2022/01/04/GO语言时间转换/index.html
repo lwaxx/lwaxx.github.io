@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.2.0">
+<meta name="generator" content="Hexo 4.2.1">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/castle-32-32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/castle-16-16">
@@ -18,7 +18,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="使用go语言进行不同时间类型之间的转换">
@@ -82,7 +82,7 @@
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
+  <div class="container">
     <div class="headband"></div>
 
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -267,7 +267,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>763</span>
+              <span>693</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -287,9 +287,9 @@
 
       
         <p><strong>使用go语言进行不同时间类型之间的转换</strong></p>
-<span id="more"></span>
+<a id="more"></a>
 
-<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">&quot;fmt&quot;</span></span><br><span class="line">	<span class="string">&quot;time&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="comment">// 2021-07-23 15:36:00.346234 +0800 CST m=+0.000174001</span></span><br><span class="line">	now := time.Now()</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 格式化 2021-07-23 15:36:00</span></span><br><span class="line">	time1 := time.Now().Format(<span class="string">&quot;2006-01-02 15:04:05&quot;</span>)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// unix时间戳格式化</span></span><br><span class="line">	time2 := now.Unix()                                        <span class="comment">// 1627025820</span></span><br><span class="line">	time3 := time.Unix(time2, <span class="number">0</span>).Format(<span class="string">&quot;2006-01-02 15:04:05&quot;</span>) <span class="comment">// 2021-07-23 15:37:00</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">// 当前时间加/减一分钟</span></span><br><span class="line">	time4 := now.Add(time.Minute * time.Duration(<span class="number">1</span>))</span><br><span class="line">	time5 := now.Add(-(time.Minute * time.Duration(<span class="number">1</span>)))</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 时间比较大小，先转为以下格式</span></span><br><span class="line">	<span class="comment">// 1970-01-01 08:00:00 +0800 CST</span></span><br><span class="line"></span><br><span class="line">	time6, _ := time.ParseInLocation(<span class="string">&quot;2006-01-02 15:04:05&quot;</span>, time3, time.Local)</span><br><span class="line">	<span class="keyword">if</span> now.Before(time6) &#123;</span><br><span class="line">		fmt.Println(<span class="string">&quot;true&quot;</span>)</span><br><span class="line">	&#125; <span class="keyword">else</span> <span class="keyword">if</span> now.After(time6) &#123;</span><br><span class="line">		fmt.Println(<span class="string">&quot;false&quot;</span>)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">	<span class="string">"fmt"</span></span><br><span class="line">	<span class="string">"time"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="comment">// 2021-07-23 15:36:00.346234 +0800 CST m=+0.000174001</span></span><br><span class="line">	now := time.Now()</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 格式化 2021-07-23 15:36:00</span></span><br><span class="line">	time1 := time.Now().Format(<span class="string">"2006-01-02 15:04:05"</span>)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// unix时间戳格式化</span></span><br><span class="line">	time2 := now.Unix()                                        <span class="comment">// 1627025820</span></span><br><span class="line">	time3 := time.Unix(time2, <span class="number">0</span>).Format(<span class="string">"2006-01-02 15:04:05"</span>) <span class="comment">// 2021-07-23 15:37:00</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">// 当前时间加/减一分钟</span></span><br><span class="line">	time4 := now.Add(time.Minute * time.Duration(<span class="number">1</span>))</span><br><span class="line">	time5 := now.Add(-(time.Minute * time.Duration(<span class="number">1</span>)))</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 时间比较大小，先转为以下格式</span></span><br><span class="line">	<span class="comment">// 1970-01-01 08:00:00 +0800 CST</span></span><br><span class="line"></span><br><span class="line">	time6, _ := time.ParseInLocation(<span class="string">"2006-01-02 15:04:05"</span>, time3, time.Local)</span><br><span class="line">	<span class="keyword">if</span> now.Before(time6) &#123;</span><br><span class="line">		fmt.Println(<span class="string">"true"</span>)</span><br><span class="line">	&#125; <span class="keyword">else</span> <span class="keyword">if</span> now.After(time6) &#123;</span><br><span class="line">		fmt.Println(<span class="string">"false"</span>)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
     </div>
 
     
@@ -472,13 +472,13 @@ setInterval("createtime()",250);
       <i class="fa fa-area-chart"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">9k</span>
+    <span title="站点总字数">8k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">8 分钟</span>
+    <span title="站点阅读时长">7 分钟</span>
 
 
 </div>
@@ -521,12 +521,8 @@ setInterval("createtime()",250);
   <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
   <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
 
 <script src="/js/utils.js"></script>
-
-<script src="/js/motion.js"></script>
 
 
 <script src="/js/schemes/pisces.js"></script>

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.2.0">
+<meta name="generator" content="Hexo 4.2.1">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/castle-32-32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/castle-16-16">
@@ -18,7 +18,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="工作中常用到的github命令">
@@ -83,7 +83,7 @@
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
+  <div class="container">
     <div class="headband"></div>
 
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -268,7 +268,7 @@
                 <i class="fa fa-file-word-o"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>673</span>
+              <span>683</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -288,10 +288,10 @@
 
       
         <p>工作中常用到的github命令</p>
-<span id="more"></span>
+<a id="more"></a>
 
 <h2 id="从master新建分支"><a href="#从master新建分支" class="headerlink" title="从master新建分支"></a>从master新建分支</h2><blockquote>
-<p>1.git checkout master                       切换到master分支<br>2.git pull                                  更新到最新代码<br>3.git checkout -b dev                       创建新分支并切换到该分支<br>4.git push origin dev                       推送新分支到远程仓库<br>5.git branch –set-upstream-to=origin/dev   关联远程仓库<br>6.git pull                                  尝试拉取验证</p>
+<p>1.git checkout master                       切换到master分支<br>2.git pull                                  更新到最新代码<br>3.git checkout -b dev                       创建新分支并切换到该分支<br>4.git push origin dev                       推送新分支到远程仓库<br>5.git branch –set-upstream-to&#x3D;origin&#x2F;dev   关联远程仓库<br>6.git pull                                  尝试拉取验证</p>
 </blockquote>
 <h2 id="dev分支合并代码到master"><a href="#dev分支合并代码到master" class="headerlink" title="dev分支合并代码到master"></a>dev分支合并代码到master</h2><blockquote>
 <p>1.git checkout maste;<br>2.git pull origin master;<br>3.git merge –squash dev;<br>4.git status;<br>5.git stash;  (暂存起来，查看解决的冲突有没有问题)<br>6.git stash pop;<br>7.git diff;   (确认没问题，直接添加)<br>8.git add .;<br>9.git commit -m “feat: xxxx”;<br>10.git log;<br>11.git push origin master;</p>
@@ -385,7 +385,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8Emaster%E6%96%B0%E5%BB%BA%E5%88%86%E6%94%AF"><span class="nav-number">1.</span> <span class="nav-text">从master新建分支</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dev%E5%88%86%E6%94%AF%E5%90%88%E5%B9%B6%E4%BB%A3%E7%A0%81%E5%88%B0master"><span class="nav-number">2.</span> <span class="nav-text">dev分支合并代码到master</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#git-rebase%EF%BC%88dev%E2%80%93%E8%87%AA%E5%B7%B1%EF%BC%8C-master%E2%80%93%E6%83%B3%E8%A6%81%E6%AF%94%E5%AF%B9%E7%9A%84%EF%BC%89"><span class="nav-number">3.</span> <span class="nav-text">git rebase（dev–自己， master–想要比对的）</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#从master新建分支"><span class="nav-number">1.</span> <span class="nav-text">从master新建分支</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dev分支合并代码到master"><span class="nav-number">2.</span> <span class="nav-text">dev分支合并代码到master</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#git-rebase（dev–自己，-master–想要比对的）"><span class="nav-number">3.</span> <span class="nav-text">git rebase（dev–自己， master–想要比对的）</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -484,13 +484,13 @@ setInterval("createtime()",250);
       <i class="fa fa-area-chart"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">9k</span>
+    <span title="站点总字数">8k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">8 分钟</span>
+    <span title="站点阅读时长">7 分钟</span>
 
 
 </div>
@@ -533,12 +533,8 @@ setInterval("createtime()",250);
   <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
   <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
 
 <script src="/js/utils.js"></script>
-
-<script src="/js/motion.js"></script>
 
 
 <script src="/js/schemes/pisces.js"></script>

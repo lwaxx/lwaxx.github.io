@@ -1291,7 +1291,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #cd4fd4;
+  background: #66244d;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -1923,7 +1923,7 @@ pre .javascript .function {
   color: #999;
   font-family: 'Lato', "PingFang SC", "Microsoft YaHei", sans-serif;
   font-size: 0.65em;
-  margin: 3px 0 60px 0;
+  margin: 3px 0 20px 0;
   text-align: center;
 }
 .posts-expand .post-meta .post-description {
@@ -2576,7 +2576,6 @@ ul.breadcrumb li + li:last-child {
   box-sizing: border-box;
   color: var(--text-color);
   width: 240px;
-  opacity: 0;
 }
 .sidebar-inner.affix {
   position: fixed;

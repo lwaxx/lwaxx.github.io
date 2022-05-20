@@ -9,7 +9,7 @@
     "server": "hexo server"
   },
   "hexo": {
-    "version": "6.2.0"
+    "version": "4.2.1"
   },
   "dependencies": {
     "font-awesome": "^4.7.0",

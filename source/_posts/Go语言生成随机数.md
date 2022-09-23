@@ -45,7 +45,7 @@ func getRandomWithMin(min, max int) int64 {
 	return int64(rand.Intn(max-min) + min)
 }
 
-// 都不包含 (min, max]
+// 不包含下限 (min, max]
 func getRandomWithMax(min, max int) int64 {
 	var res int64
 	rand.Seed(time.Now().UnixNano())

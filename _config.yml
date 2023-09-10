@@ -128,4 +128,5 @@ deploy:
   repo: 
      coding: git@e.coding.net:lwaxx/lwaxx-blog/lwaxx.blog.git,master
      github: git@github.com:lwaxx/lwaxx.github.io.git,master
+    #  github: https://github.com/lwaxx/lwaxx.github.io.git,master
 

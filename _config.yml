@@ -116,17 +116,17 @@ search:
 
 # 设置博客单词统计
 symbols_count_time:
-  symbols: true 
-  time: true 
-  total_symbols: true 
-  total_time: true 
+  symbols: false 
+  time: false 
+  total_symbols: false 
+  total_time: false 
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: git
   repo: 
-     coding: git@e.coding.net:lwaxx/lwaxx-blog/lwaxx.blog.git,master
+    #  coding: git@e.coding.net:lwaxx/lwaxx-blog/lwaxx.blog.git,master
      github: git@github.com:lwaxx/lwaxx.github.io.git,master
     #  github: https://github.com/lwaxx/lwaxx.github.io.git,master
 

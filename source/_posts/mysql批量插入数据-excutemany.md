@@ -3,7 +3,7 @@ title: mysql批量插入数据 excutemany
 date: 2022-01-04 11:25:31
 tags: [Python, Mysql, Databse]
 categories: 后端开发
-top: true
+# top: true
 ---
 
 > 问题：

@@ -189,6 +189,108 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/12/10/%E6%B7%B1%E5%85%A5%E6%8E%A2%E7%A9%B6-Python-%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B%EF%BC%9A%E5%88%A9%E7%94%A8-asyncio-%E5%92%8C-aiohttp-%E6%9E%84%E5%BB%BA%E9%AB%98%E6%95%88%E5%B9%B6%E5%8F%91%E5%BA%94%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/header.png">
+      <meta itemprop="name" content="李伟">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lwaxx的博客">
+    </span>
+
+    
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/12/10/%E6%B7%B1%E5%85%A5%E6%8E%A2%E7%A9%B6-Python-%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B%EF%BC%9A%E5%88%A9%E7%94%A8-asyncio-%E5%92%8C-aiohttp-%E6%9E%84%E5%BB%BA%E9%AB%98%E6%95%88%E5%B9%B6%E5%8F%91%E5%BA%94%E7%94%A8/" class="post-title-link" itemprop="url">深入探究 Python 异步编程：利用 asyncio 和 aiohttp 构建高效并发应用</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-12-10 16:44:49 / 修改时间：17:04:02" itemprop="dateCreated datePublished" datetime="2023-12-10T16:44:49+08:00">2023-12-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%90%8E%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">后端</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%90%8E%E7%AB%AF/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2023/12/10/%E6%B7%B1%E5%85%A5%E6%8E%A2%E7%A9%B6-Python-%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B%EF%BC%9A%E5%88%A9%E7%94%A8-asyncio-%E5%92%8C-aiohttp-%E6%9E%84%E5%BB%BA%E9%AB%98%E6%95%88%E5%B9%B6%E5%8F%91%E5%BA%94%E7%94%A8/" class="post-meta-item leancloud_visitors" data-flag-title="深入探究 Python 异步编程：利用 asyncio 和 aiohttp 构建高效并发应用" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2023/12/10/%E6%B7%B1%E5%85%A5%E6%8E%A2%E7%A9%B6-Python-%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B%EF%BC%9A%E5%88%A9%E7%94%A8-asyncio-%E5%92%8C-aiohttp-%E6%9E%84%E5%BB%BA%E9%AB%98%E6%95%88%E5%B9%B6%E5%8F%91%E5%BA%94%E7%94%A8/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2023/12/10/%E6%B7%B1%E5%85%A5%E6%8E%A2%E7%A9%B6-Python-%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B%EF%BC%9A%E5%88%A9%E7%94%A8-asyncio-%E5%92%8C-aiohttp-%E6%9E%84%E5%BB%BA%E9%AB%98%E6%95%88%E5%B9%B6%E5%8F%91%E5%BA%94%E7%94%A8/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>在现代编程中，异步编程已成为处理高并发和IO密集型任务的重要方式。Python 提供了强大的异步编程支持，包括 asyncio 库和 aiohttp 等框架。本文将深入探讨异步编程的概念，以及在 Python 中如何利用异步框架来实现高效的并发编程。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/12/10/%E6%B7%B1%E5%85%A5%E6%8E%A2%E7%A9%B6-Python-%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B%EF%BC%9A%E5%88%A9%E7%94%A8-asyncio-%E5%92%8C-aiohttp-%E6%9E%84%E5%BB%BA%E9%AB%98%E6%95%88%E5%B9%B6%E5%8F%91%E5%BA%94%E7%94%A8/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2023/12/04/%E6%B7%B1%E5%85%A5%E6%8E%A2%E8%AE%A8-Python-%E4%B8%AD%E7%9A%84%E8%A3%85%E9%A5%B0%E5%99%A8%E5%92%8C%E4%B8%8A%E4%B8%8B%E6%96%87%E7%AE%A1%E7%90%86%E5%99%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1127,114 +1229,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/09/11/%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/header.png">
-      <meta itemprop="name" content="李伟">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Lwaxx的博客">
-    </span>
-
-    
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/09/11/%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/" class="post-title-link" itemprop="url">十大排序算法（二） - 选择排序算法</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-09-11 21:42:42" itemprop="dateCreated datePublished" datetime="2023-09-11T21:42:42+08:00">2023-09-11</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-09-16 17:28:08" itemprop="dateModified" datetime="2023-09-16T17:28:08+08:00">2023-09-16</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%AE%97%E6%B3%95/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">排序算法</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/2023/09/11/%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/" class="post-meta-item leancloud_visitors" data-flag-title="十大排序算法（二） - 选择排序算法" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="fa fa-comment-o"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2023/09/11/%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2023/09/11/%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>在计算机科学中，排序是一个基本而重要的问题。排序算法有许多种，其中之一是选择排序（Selection Sort）。本文将深入介绍选择排序的工作原理，讨论其时间复杂度，以及提供Python、Go、Java和C语言的示例代码。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/09/11/%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1306,7 +1300,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-count">25</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/castle-32-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/castle-16-16">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Python 中的 datetime 和 time 模块为处理时间和日期提供了强大的功能。这些模块不仅支持时间和日期的操作，还能进行时间戳的转换、时区操作等。在本文中，我们将深入介绍这些模块的用法和实际示例。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python 时间处理与时区转换：深入探究 datetime、time 模块与 pytz 库的功能与应用">
+<meta property="og:url" content="http://example.com/2023/12/11/Python-%E6%97%B6%E9%97%B4%E5%A4%84%E7%90%86%E4%B8%8E%E6%97%B6%E5%8C%BA%E8%BD%AC%E6%8D%A2%EF%BC%9A%E6%B7%B1%E5%85%A5%E6%8E%A2%E7%A9%B6-datetime%E3%80%81time-%E6%A8%A1%E5%9D%97%E4%B8%8E-pytz-%E5%BA%93%E7%9A%84%E5%8A%9F%E8%83%BD%E4%B8%8E%E5%BA%94%E7%94%A8/index.html">
+<meta property="og:site_name" content="Lwaxx的博客">
+<meta property="og:description" content="Python 中的 datetime 和 time 模块为处理时间和日期提供了强大的功能。这些模块不仅支持时间和日期的操作，还能进行时间戳的转换、时区操作等。在本文中，我们将深入介绍这些模块的用法和实际示例。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-12-11T14:01:43.000Z">
+<meta property="article:modified_time" content="2023-12-11T14:12:04.219Z">
+<meta property="article:author" content="李伟">
+<meta property="article:tag" content="python">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2023/12/11/Python-%E6%97%B6%E9%97%B4%E5%A4%84%E7%90%86%E4%B8%8E%E6%97%B6%E5%8C%BA%E8%BD%AC%E6%8D%A2%EF%BC%9A%E6%B7%B1%E5%85%A5%E6%8E%A2%E7%A9%B6-datetime%E3%80%81time-%E6%A8%A1%E5%9D%97%E4%B8%8E-pytz-%E5%BA%93%E7%9A%84%E5%8A%9F%E8%83%BD%E4%B8%8E%E5%BA%94%E7%94%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Python 时间处理与时区转换：深入探究 datetime、time 模块与 pytz 库的功能与应用 | Lwaxx的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Lwaxx的博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Lwaxx的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-fw fa-calendar"></i>日程表</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/lwaxx" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/12/11/Python-%E6%97%B6%E9%97%B4%E5%A4%84%E7%90%86%E4%B8%8E%E6%97%B6%E5%8C%BA%E8%BD%AC%E6%8D%A2%EF%BC%9A%E6%B7%B1%E5%85%A5%E6%8E%A2%E7%A9%B6-datetime%E3%80%81time-%E6%A8%A1%E5%9D%97%E4%B8%8E-pytz-%E5%BA%93%E7%9A%84%E5%8A%9F%E8%83%BD%E4%B8%8E%E5%BA%94%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/header.png">
+      <meta itemprop="name" content="李伟">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lwaxx的博客">
+    </span>
+
+    
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Python 时间处理与时区转换：深入探究 datetime、time 模块与 pytz 库的功能与应用
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-12-11 22:01:43 / 修改时间：22:12:04" itemprop="dateCreated datePublished" datetime="2023-12-11T22:01:43+08:00">2023-12-11</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%90%8E%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">后端</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%90%8E%E7%AB%AF/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2023/12/11/Python-%E6%97%B6%E9%97%B4%E5%A4%84%E7%90%86%E4%B8%8E%E6%97%B6%E5%8C%BA%E8%BD%AC%E6%8D%A2%EF%BC%9A%E6%B7%B1%E5%85%A5%E6%8E%A2%E7%A9%B6-datetime%E3%80%81time-%E6%A8%A1%E5%9D%97%E4%B8%8E-pytz-%E5%BA%93%E7%9A%84%E5%8A%9F%E8%83%BD%E4%B8%8E%E5%BA%94%E7%94%A8/" class="post-meta-item leancloud_visitors" data-flag-title="Python 时间处理与时区转换：深入探究 datetime、time 模块与 pytz 库的功能与应用" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2023/12/11/Python-%E6%97%B6%E9%97%B4%E5%A4%84%E7%90%86%E4%B8%8E%E6%97%B6%E5%8C%BA%E8%BD%AC%E6%8D%A2%EF%BC%9A%E6%B7%B1%E5%85%A5%E6%8E%A2%E7%A9%B6-datetime%E3%80%81time-%E6%A8%A1%E5%9D%97%E4%B8%8E-pytz-%E5%BA%93%E7%9A%84%E5%8A%9F%E8%83%BD%E4%B8%8E%E5%BA%94%E7%94%A8/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2023/12/11/Python-%E6%97%B6%E9%97%B4%E5%A4%84%E7%90%86%E4%B8%8E%E6%97%B6%E5%8C%BA%E8%BD%AC%E6%8D%A2%EF%BC%9A%E6%B7%B1%E5%85%A5%E6%8E%A2%E7%A9%B6-datetime%E3%80%81time-%E6%A8%A1%E5%9D%97%E4%B8%8E-pytz-%E5%BA%93%E7%9A%84%E5%8A%9F%E8%83%BD%E4%B8%8E%E5%BA%94%E7%94%A8/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>Python 中的 datetime 和 time 模块为处理时间和日期提供了强大的功能。这些模块不仅支持时间和日期的操作，还能进行时间戳的转换、时区操作等。在本文中，我们将深入介绍这些模块的用法和实际示例。</p>
+<span id="more"></span>
+
+<h2 id="1-datetime-模块：处理日期和时间"><a href="#1-datetime-模块：处理日期和时间" class="headerlink" title="1. datetime 模块：处理日期和时间"></a>1. datetime 模块：处理日期和时间</h2><p>datetime 模块是 Python 标准库中用于处理日期和时间的模块。它提供了多个类和函数，用于创建、操作和格式化日期时间对象。datetime 模块的核心类是 datetime 类，它能够表示日期和时间，并提供了丰富的方法来进行计算和操作。</p>
+<p>以下是 datetime 模块中常用的一些类和方法：</p>
+<h3 id="1-1-datetime-类"><a href="#1-1-datetime-类" class="headerlink" title="1.1 datetime 类"></a>1.1 datetime 类</h3><p>datetime 类用于表示具体的日期和时间。它包含了年、月、日、时、分、秒等信息，并支持进行日期时间的算术运算和比较。</p>
+<p><strong>创建日期时间对象：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</span><br><span class="line"></span><br><span class="line">current_datetime = datetime.now()  <span class="comment"># 获取当前日期时间</span></span><br><span class="line">specific_datetime = datetime(<span class="number">2023</span>, <span class="number">12</span>, <span class="number">1</span>, <span class="number">10</span>, <span class="number">30</span>, <span class="number">0</span>)  <span class="comment"># 创建特定日期时间对象</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>日期时间格式化：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">formatted_date = current_datetime.strftime(<span class="string">&quot;%Y-%m-%d %H:%M:%S&quot;</span>)  <span class="comment"># 格式化日期时间</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>日期时间运算：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> timedelta</span><br><span class="line"></span><br><span class="line">new_datetime = current_datetime + timedelta(days=<span class="number">5</span>, hours=<span class="number">3</span>)  <span class="comment"># 进行日期时间的加减运算</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="1-2-timedelta-类"><a href="#1-2-timedelta-类" class="headerlink" title="1.2 timedelta 类"></a>1.2 timedelta 类</h3><p>timedelta 类表示时间间隔，可用于在日期时间上进行加减操作。</p>
+<p><strong>创建时间间隔：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> timedelta</span><br><span class="line"></span><br><span class="line">time_delta = timedelta(days=<span class="number">5</span>, hours=<span class="number">3</span>, minutes=<span class="number">20</span>)  <span class="comment"># 创建时间间隔对象</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>与日期时间进行运算：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">new_datetime = current_datetime + time_delta  <span class="comment"># 日期时间与时间间隔相加</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="1-3-其他方法和函数"><a href="#1-3-其他方法和函数" class="headerlink" title="1.3 其他方法和函数"></a>1.3 其他方法和函数</h3><ul>
+<li>datetime.strptime()：将字符串解析为日期时间对象。</li>
+<li>datetime.combine()：将日期和时间组合成一个新的日期时间对象。</li>
+<li>datetime.now()：获取当前日期时间。</li>
+<li>datetime.date() 和 datetime.time()：分别获取日期和时间部分。</li>
+</ul>
+<h3 id="示例-1：获取当前日期时间"><a href="#示例-1：获取当前日期时间" class="headerlink" title="示例 1：获取当前日期时间"></a>示例 1：获取当前日期时间</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</span><br><span class="line"></span><br><span class="line">now = datetime.now()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Current Date and Time:&quot;</span>, now)</span><br></pre></td></tr></table></figure>
+
+<p><strong>示例 2：格式化日期时间</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">formatted_date = now.strftime(<span class="string">&quot;%Y-%m-%d %H:%M:%S&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Formatted Date:&quot;</span>, formatted_date)</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-time-模块：处理时间和时间戳"><a href="#2-time-模块：处理时间和时间戳" class="headerlink" title="2. time 模块：处理时间和时间戳"></a>2. time 模块：处理时间和时间戳</h2><p>time 模块提供了处理时间和时间戳的功能，能够获取当前时间、进行时间戳转换等操作。</p>
+<p>time 模块是 Python 标准库中用于处理时间的模块，它提供了许多与时间相关的功能，包括时间获取、时间戳处理、睡眠等。与 datetime 不同，time 模块主要用于处理时间本身，而不涉及日期的处理。</p>
+<p>以下是 time 模块中常用的一些函数和类：</p>
+<h3 id="2-1-时间获取"><a href="#2-1-时间获取" class="headerlink" title="2.1 时间获取"></a>2.1 时间获取</h3><p><strong>time() 函数：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line">current_time = time.time()  <span class="comment"># 获取当前时间的时间戳（从1970年1月1日开始计算的秒数）</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>ctime() 函数：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">formatted_time = time.ctime()  <span class="comment"># 获取当前时间的可读形式</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-2-时间格式化"><a href="#2-2-时间格式化" class="headerlink" title="2.2 时间格式化"></a>2.2 时间格式化</h3><p><strong>strftime() 函数：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">formatted_time = time.strftime(<span class="string">&quot;%Y-%m-%d %H:%M:%S&quot;</span>, time.localtime())  <span class="comment"># 将时间转换为指定格式的字符串</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-3-睡眠"><a href="#2-3-睡眠" class="headerlink" title="2.3 睡眠"></a>2.3 睡眠</h3><p><strong>sleep() 函数：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">time.sleep(<span class="number">5</span>)  <span class="comment"># 暂停程序执行，单位为秒</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-4-时间元组"><a href="#2-4-时间元组" class="headerlink" title="2.4 时间元组"></a>2.4 时间元组</h3><p><strong>struct_time 类型：</strong><br>time.localtime() 和 time.gmtime() 返回的是 struct_time 类型的对象，包含了时间的各个元素（年、月、日、时、分、秒等）。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">current_local_time = time.localtime()  <span class="comment"># 获取本地时间的时间元组</span></span><br><span class="line">current_utc_time = time.gmtime()  <span class="comment"># 获取UTC时间的时间元组</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-5-其他函数"><a href="#2-5-其他函数" class="headerlink" title="2.5 其他函数"></a>2.5 其他函数</h3><ul>
+<li>time.sleep()：使程序暂停指定的时间（秒）。</li>
+<li>time.monotonic()：返回一个单调递增的时间，用于性能计时。</li>
+<li>time.clock()（Python 3.8 之前）或 time.perf_counter()（Python 3.3+）：返回程序运行时间的高精度值。<br>time 模块提供了许多函数和方法来处理时间，包括获取当前时间、时间格式化、睡眠等操作。这些功能可以满足对时间处理和计时的多种需求，使得 Python 在时间相关的操作上更加灵活和强大。</li>
+</ul>
+<h3 id="示例-3：获取当前时间戳"><a href="#示例-3：获取当前时间戳" class="headerlink" title="示例 3：获取当前时间戳"></a>示例 3：获取当前时间戳</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line">timestamp = time.time()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Current Timestamp:&quot;</span>, timestamp)</span><br></pre></td></tr></table></figure>
+
+<h3 id="示例-4：将时间戳转换为日期时间"><a href="#示例-4：将时间戳转换为日期时间" class="headerlink" title="示例 4：将时间戳转换为日期时间"></a>示例 4：将时间戳转换为日期时间</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">timestamp = <span class="number">1634156485.123456789</span></span><br><span class="line">converted_time = datetime.fromtimestamp(timestamp)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Converted Time:&quot;</span>, converted_time)</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-时区操作与切换"><a href="#3-时区操作与切换" class="headerlink" title="3. 时区操作与切换"></a>3. 时区操作与切换</h2><p>时区操作在处理时间时非常重要，特别是在涉及多个时区的情况下。Python 中通过第三方库 pytz 来处理时区信息。pytz 提供了时区相关的功能，允许在不同的时区之间进行转换、操作和表示。</p>
+<h3 id="3-1-时区对象创建"><a href="#3-1-时区对象创建" class="headerlink" title="3.1 时区对象创建"></a>3.1 时区对象创建</h3><p>pytz 可以创建表示不同时区的对象，并将其应用于日期时间对象。</p>
+<p><strong>创建时区对象：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pytz</span><br><span class="line"></span><br><span class="line">local_tz = pytz.timezone(<span class="string">&#x27;Asia/Shanghai&#x27;</span>)  <span class="comment"># 创建表示上海时区的对象</span></span><br><span class="line">utc_tz = pytz.utc  <span class="comment"># 创建表示 UTC 时区的对象</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-2-时区转换与应用"><a href="#3-2-时区转换与应用" class="headerlink" title="3.2 时区转换与应用"></a>3.2 时区转换与应用</h3><p><strong>将本地时间转换为特定时区时间：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取当前时间，并将其应用于上海时区</span></span><br><span class="line">local_time = datetime.now()</span><br><span class="line">local_time = local_tz.localize(local_time)</span><br></pre></td></tr></table></figure>
+
+<p><strong>将时区转换为其他时区：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将上海时区时间转换为 UTC 时间</span></span><br><span class="line">utc_time = local_time.astimezone(pytz.utc)</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-3-时区信息与操作"><a href="#3-3-时区信息与操作" class="headerlink" title="3.3 时区信息与操作"></a>3.3 时区信息与操作</h3><p><strong>获取时区相关信息：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tz_list = pytz.all_timezones  <span class="comment"># 获取所有时区列表</span></span><br><span class="line">tz_info = local_time.tzinfo  <span class="comment"># 获取日期时间对象的时区信息</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>执行时区操作：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将 UTC 时间转换为纽约时区时间</span></span><br><span class="line">ny_tz = pytz.timezone(<span class="string">&#x27;America/New_York&#x27;</span>)</span><br><span class="line">ny_time = utc_time.astimezone(ny_tz)</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-4-时区意识的日期时间对象"><a href="#3-4-时区意识的日期时间对象" class="headerlink" title="3.4 时区意识的日期时间对象"></a>3.4 时区意识的日期时间对象</h3><p>datetime 类提供了 replace() 方法，用于将日期时间对象变为时区意识的对象。</p>
+<p><strong>创建时区意识的日期时间对象：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">aware_time = datetime(<span class="number">2023</span>, <span class="number">12</span>, <span class="number">1</span>, <span class="number">12</span>, <span class="number">0</span>, <span class="number">0</span>, tzinfo=pytz.timezone(<span class="string">&#x27;Europe/London&#x27;</span>))</span><br></pre></td></tr></table></figure>
+<p>时区操作与切换功能强大，允许程序在不同的时区之间进行转换和处理，并且确保正确的时间显示和计算。在处理涉及不同时区的时间数据时，合理使用时区操作能够避免混淆和错误，并确保时间的准确性和一致性。</p>
+<h3 id="示例-5：进行时区转换"><a href="#示例-5：进行时区转换" class="headerlink" title="示例 5：进行时区转换"></a>示例 5：进行时区转换</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pytz</span><br><span class="line"></span><br><span class="line">utc_time = datetime.utcnow().replace(tzinfo=pytz.utc)</span><br><span class="line">local_timezone = pytz.timezone(<span class="string">&#x27;Asia/Shanghai&#x27;</span>)</span><br><span class="line"></span><br><span class="line">local_time = utc_time.astimezone(local_timezone)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Local Time:&quot;</span>, local_time)</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-结语"><a href="#4-结语" class="headerlink" title="4.结语"></a>4.结语</h2><p>datetime 和 time 模块为 Python 开发者提供了强大的时间和日期处理能力。通过这些模块，可以轻松地创建、操作和格式化日期时间，进行时间戳的转换，甚至处理时区等复杂操作。这些示例展示了如何使用这些模块来处理时间日期数据，为 Python 编程中时间处理提供了重要的参考和指导。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/python/" rel="tag"><i class="fa fa-tag"></i> python</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/12/10/%E6%B7%B1%E5%85%A5%E6%8E%A2%E7%A9%B6-Python-%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B%EF%BC%9A%E5%88%A9%E7%94%A8-asyncio-%E5%92%8C-aiohttp-%E6%9E%84%E5%BB%BA%E9%AB%98%E6%95%88%E5%B9%B6%E5%8F%91%E5%BA%94%E7%94%A8/" rel="prev" title="深入探究 Python 异步编程：利用 asyncio 和 aiohttp 构建高效并发应用">
+      <i class="fa fa-chevron-left"></i> 深入探究 Python 异步编程：利用 asyncio 和 aiohttp 构建高效并发应用
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-datetime-%E6%A8%A1%E5%9D%97%EF%BC%9A%E5%A4%84%E7%90%86%E6%97%A5%E6%9C%9F%E5%92%8C%E6%97%B6%E9%97%B4"><span class="nav-number">1.</span> <span class="nav-text">1. datetime 模块：处理日期和时间</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-datetime-%E7%B1%BB"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 datetime 类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-timedelta-%E7%B1%BB"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 timedelta 类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-%E5%85%B6%E4%BB%96%E6%96%B9%E6%B3%95%E5%92%8C%E5%87%BD%E6%95%B0"><span class="nav-number">1.3.</span> <span class="nav-text">1.3 其他方法和函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B-1%EF%BC%9A%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8D%E6%97%A5%E6%9C%9F%E6%97%B6%E9%97%B4"><span class="nav-number">1.4.</span> <span class="nav-text">示例 1：获取当前日期时间</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-time-%E6%A8%A1%E5%9D%97%EF%BC%9A%E5%A4%84%E7%90%86%E6%97%B6%E9%97%B4%E5%92%8C%E6%97%B6%E9%97%B4%E6%88%B3"><span class="nav-number">2.</span> <span class="nav-text">2. time 模块：处理时间和时间戳</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E6%97%B6%E9%97%B4%E8%8E%B7%E5%8F%96"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 时间获取</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E6%97%B6%E9%97%B4%E6%A0%BC%E5%BC%8F%E5%8C%96"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 时间格式化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E7%9D%A1%E7%9C%A0"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 睡眠</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-%E6%97%B6%E9%97%B4%E5%85%83%E7%BB%84"><span class="nav-number">2.4.</span> <span class="nav-text">2.4 时间元组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-%E5%85%B6%E4%BB%96%E5%87%BD%E6%95%B0"><span class="nav-number">2.5.</span> <span class="nav-text">2.5 其他函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B-3%EF%BC%9A%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8D%E6%97%B6%E9%97%B4%E6%88%B3"><span class="nav-number">2.6.</span> <span class="nav-text">示例 3：获取当前时间戳</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B-4%EF%BC%9A%E5%B0%86%E6%97%B6%E9%97%B4%E6%88%B3%E8%BD%AC%E6%8D%A2%E4%B8%BA%E6%97%A5%E6%9C%9F%E6%97%B6%E9%97%B4"><span class="nav-number">2.7.</span> <span class="nav-text">示例 4：将时间戳转换为日期时间</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E6%97%B6%E5%8C%BA%E6%93%8D%E4%BD%9C%E4%B8%8E%E5%88%87%E6%8D%A2"><span class="nav-number">3.</span> <span class="nav-text">3. 时区操作与切换</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E6%97%B6%E5%8C%BA%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 时区对象创建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E6%97%B6%E5%8C%BA%E8%BD%AC%E6%8D%A2%E4%B8%8E%E5%BA%94%E7%94%A8"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 时区转换与应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-%E6%97%B6%E5%8C%BA%E4%BF%A1%E6%81%AF%E4%B8%8E%E6%93%8D%E4%BD%9C"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 时区信息与操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-%E6%97%B6%E5%8C%BA%E6%84%8F%E8%AF%86%E7%9A%84%E6%97%A5%E6%9C%9F%E6%97%B6%E9%97%B4%E5%AF%B9%E8%B1%A1"><span class="nav-number">3.4.</span> <span class="nav-text">3.4 时区意识的日期时间对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B-5%EF%BC%9A%E8%BF%9B%E8%A1%8C%E6%97%B6%E5%8C%BA%E8%BD%AC%E6%8D%A2"><span class="nav-number">3.5.</span> <span class="nav-text">示例 5：进行时区转换</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E7%BB%93%E8%AF%AD"><span class="nav-number">4.</span> <span class="nav-text">4.结语</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="李伟"
+      src="/images/header.png">
+  <p class="site-author-name" itemprop="name">李伟</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/lwaxx" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;lwaxx" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://blog.csdn.net/qq_41586251?spm=1011.2124.3001.5343" title="CSDN → https:&#x2F;&#x2F;blog.csdn.net&#x2F;qq_41586251?spm&#x3D;1011.2124.3001.5343" rel="noopener" target="_blank"><i class="fa fa-fw fa-crosshairs"></i>CSDN</a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<!-- 网站运行时间的设置 -->
+<span id="timeDate">载入天数...</span>
+<span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("01/01/2022 00:00:00");//此处修改你的建站时间或者网站上线时间
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+}
+setInterval("createtime()",250);
+</script>
+
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">李伟</span>
+
+
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : false,
+      appId      : 'q5gun1zw8OJ2yTubABSiC1ke-MdYXbMMI',
+      appKey     : 'CMRV8hDtJKjBaMwCKE6u3Yfu',
+      placeholder: "留下您的评论",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://q5gun1zw.api.lncldglobal.com'
+    });
+  }, window.Valine);
+
+  var infoEle = document.querySelector('#comments .info');
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0){
+    infoEle.childNodes.forEach(function(item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+});
+</script>
+
+</body>
+</html>

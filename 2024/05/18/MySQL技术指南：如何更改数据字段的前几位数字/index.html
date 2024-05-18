@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/castle-32-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/castle-16-16">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":"valine","storage":true,"lazyload":false,"nav":null,"activeClass":"valine"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="摘要：MySQL是一款强大的关系型数据库管理系统，本文将介绍如何使用MySQL来更改数据字段中的前几位数字。通过详细的步骤和实际案例，读者将能够轻松地掌握这一技术。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL技术指南：如何更改数据字段的前几位数字">
+<meta property="og:url" content="http://example.com/2024/05/18/MySQL%E6%8A%80%E6%9C%AF%E6%8C%87%E5%8D%97%EF%BC%9A%E5%A6%82%E4%BD%95%E6%9B%B4%E6%94%B9%E6%95%B0%E6%8D%AE%E5%AD%97%E6%AE%B5%E7%9A%84%E5%89%8D%E5%87%A0%E4%BD%8D%E6%95%B0%E5%AD%97/index.html">
+<meta property="og:site_name" content="Lwaxx的博客">
+<meta property="og:description" content="摘要：MySQL是一款强大的关系型数据库管理系统，本文将介绍如何使用MySQL来更改数据字段中的前几位数字。通过详细的步骤和实际案例，读者将能够轻松地掌握这一技术。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-05-18T07:03:59.000Z">
+<meta property="article:modified_time" content="2024-05-18T07:12:19.828Z">
+<meta property="article:author" content="李伟">
+<meta property="article:tag" content="MySql">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2024/05/18/MySQL%E6%8A%80%E6%9C%AF%E6%8C%87%E5%8D%97%EF%BC%9A%E5%A6%82%E4%BD%95%E6%9B%B4%E6%94%B9%E6%95%B0%E6%8D%AE%E5%AD%97%E6%AE%B5%E7%9A%84%E5%89%8D%E5%87%A0%E4%BD%8D%E6%95%B0%E5%AD%97/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>MySQL技术指南：如何更改数据字段的前几位数字 | Lwaxx的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Lwaxx的博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Lwaxx的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-fw fa-calendar"></i>日程表</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/lwaxx" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/05/18/MySQL%E6%8A%80%E6%9C%AF%E6%8C%87%E5%8D%97%EF%BC%9A%E5%A6%82%E4%BD%95%E6%9B%B4%E6%94%B9%E6%95%B0%E6%8D%AE%E5%AD%97%E6%AE%B5%E7%9A%84%E5%89%8D%E5%87%A0%E4%BD%8D%E6%95%B0%E5%AD%97/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/header.png">
+      <meta itemprop="name" content="李伟">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Lwaxx的博客">
+    </span>
+
+    
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MySQL技术指南：如何更改数据字段的前几位数字
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-05-18 15:03:59 / 修改时间：15:12:19" itemprop="dateCreated datePublished" datetime="2024-05-18T15:03:59+08:00">2024-05-18</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/MySql/" itemprop="url" rel="index"><span itemprop="name">MySql</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/MySql/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2024/05/18/MySQL%E6%8A%80%E6%9C%AF%E6%8C%87%E5%8D%97%EF%BC%9A%E5%A6%82%E4%BD%95%E6%9B%B4%E6%94%B9%E6%95%B0%E6%8D%AE%E5%AD%97%E6%AE%B5%E7%9A%84%E5%89%8D%E5%87%A0%E4%BD%8D%E6%95%B0%E5%AD%97/" class="post-meta-item leancloud_visitors" data-flag-title="MySQL技术指南：如何更改数据字段的前几位数字" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2024/05/18/MySQL%E6%8A%80%E6%9C%AF%E6%8C%87%E5%8D%97%EF%BC%9A%E5%A6%82%E4%BD%95%E6%9B%B4%E6%94%B9%E6%95%B0%E6%8D%AE%E5%AD%97%E6%AE%B5%E7%9A%84%E5%89%8D%E5%87%A0%E4%BD%8D%E6%95%B0%E5%AD%97/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2024/05/18/MySQL%E6%8A%80%E6%9C%AF%E6%8C%87%E5%8D%97%EF%BC%9A%E5%A6%82%E4%BD%95%E6%9B%B4%E6%94%B9%E6%95%B0%E6%8D%AE%E5%AD%97%E6%AE%B5%E7%9A%84%E5%89%8D%E5%87%A0%E4%BD%8D%E6%95%B0%E5%AD%97/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>摘要：MySQL是一款强大的关系型数据库管理系统，本文将介绍如何使用MySQL来更改数据字段中的前几位数字。通过详细的步骤和实际案例，读者将能够轻松地掌握这一技术。</p>
+<span id="more"></span>
+
+<h4 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h4><p>在数据库管理中，有时候我们需要对数据进行修改以满足特定需求，其中之一就是更改数据字段的前几位数字。这可能涉及到诸如更新电话号码的区号、修改身份证号码的前几位等操作。MySQL提供了一系列功能强大的函数和语法，使得这些操作变得简单而高效。</p>
+<h4 id="使用SUBSTRING函数"><a href="#使用SUBSTRING函数" class="headerlink" title="使用SUBSTRING函数"></a>使用SUBSTRING函数</h4><p>SUBSTRING函数允许我们截取字段中的指定部分。通过结合其他函数，我们可以实现对前几位数字的修改。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> table_name</span><br><span class="line"><span class="keyword">SET</span> column_name <span class="operator">=</span> CONCAT(<span class="string">&#x27;new_prefix&#x27;</span>, <span class="built_in">SUBSTRING</span>(column_name, length_of_prefix <span class="operator">+</span> <span class="number">1</span>))</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">condition</span>;</span><br></pre></td></tr></table></figure>
+
+<p>示例：</p>
+<p>假设我们有一个电话号码字段phone_number，现在需要将其前三位数字由”123”改为”456”。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> customers</span><br><span class="line"><span class="keyword">SET</span> phone_number <span class="operator">=</span> CONCAT(<span class="string">&#x27;456&#x27;</span>, <span class="built_in">SUBSTRING</span>(phone_number, <span class="number">4</span>))</span><br><span class="line"><span class="keyword">WHERE</span> phone_number <span class="keyword">LIKE</span> <span class="string">&#x27;123%&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<h4 id="使用REPLACE函数"><a href="#使用REPLACE函数" class="headerlink" title="使用REPLACE函数"></a>使用REPLACE函数</h4><p>REPLACE函数可以替换字段中的指定字符串，结合SUBSTRING函数，我们可以实现对前几位数字的修改。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> table_name</span><br><span class="line"><span class="keyword">SET</span> column_name <span class="operator">=</span> CONCAT(<span class="string">&#x27;new_prefix&#x27;</span>, <span class="built_in">SUBSTRING</span>(column_name, length_of_prefix <span class="operator">+</span> <span class="number">1</span>))</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">condition</span>;</span><br></pre></td></tr></table></figure>
+
+<p>示例：</p>
+<p>假设我们有一个身份证号码字段id_number，现在需要将其前六位数字由”123456”改为”654321”。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> employees</span><br><span class="line"><span class="keyword">SET</span> id_number <span class="operator">=</span> CONCAT(<span class="string">&#x27;654321&#x27;</span>, <span class="built_in">SUBSTRING</span>(id_number, <span class="number">7</span>))</span><br><span class="line"><span class="keyword">WHERE</span> id_number <span class="keyword">LIKE</span> <span class="string">&#x27;123456%&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<h4 id="使用LEFT和CONCAT函数"><a href="#使用LEFT和CONCAT函数" class="headerlink" title="使用LEFT和CONCAT函数"></a>使用LEFT和CONCAT函数</h4><p>LEFT函数用于截取字段的左侧指定长度的字符，结合CONCAT函数，我们可以实现对前几位数字的修改。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> table_name</span><br><span class="line"><span class="keyword">SET</span> column_name <span class="operator">=</span> CONCAT(<span class="string">&#x27;new_prefix&#x27;</span>, <span class="built_in">SUBSTRING</span>(column_name, length_of_prefix <span class="operator">+</span> <span class="number">1</span>))</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">condition</span>;</span><br></pre></td></tr></table></figure>
+<p>示例：</p>
+<p>假设我们有一个邮政编码字段postal_code，现在需要将其前两位数字由”12”改为”98”。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> addresses</span><br><span class="line"><span class="keyword">SET</span> postal_code <span class="operator">=</span> CONCAT(<span class="string">&#x27;98&#x27;</span>, <span class="built_in">SUBSTRING</span>(postal_code, <span class="number">3</span>))</span><br><span class="line"><span class="keyword">WHERE</span> LENGTH(postal_code) <span class="operator">&gt;=</span> <span class="number">2</span>;</span><br></pre></td></tr></table></figure>
+
+<h4 id="使用正则表达式"><a href="#使用正则表达式" class="headerlink" title="使用正则表达式"></a>使用正则表达式</h4><p>MySQL支持正则表达式，我们可以使用REGEXP_REPLACE函数实现对前几位数字的修改。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> table_name</span><br><span class="line"><span class="keyword">SET</span> column_name <span class="operator">=</span> REGEXP_REPLACE(column_name, <span class="string">&#x27;pattern&#x27;</span>, <span class="string">&#x27;replacement&#x27;</span>)</span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">condition</span>;</span><br></pre></td></tr></table></figure>
+
+<p>示例：</p>
+<p>假设我们有一个订单号字段order_id，现在需要将其前四位数字由”1234”改为”5678”。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> orders</span><br><span class="line"><span class="keyword">SET</span> order_id <span class="operator">=</span> REGEXP_REPLACE(order_id, <span class="string">&#x27;^1234&#x27;</span>, <span class="string">&#x27;5678&#x27;</span>)</span><br><span class="line"><span class="keyword">WHERE</span> order_id REGEXP <span class="string">&#x27;^1234&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<h4 id="使用CASE语句"><a href="#使用CASE语句" class="headerlink" title="使用CASE语句"></a>使用CASE语句</h4><p>在某些复杂情况下，我们可以使用CASE语句根据条件来修改字段的前几位数字。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> table_name</span><br><span class="line"><span class="keyword">SET</span> column_name <span class="operator">=</span> </span><br><span class="line">  <span class="keyword">CASE</span></span><br><span class="line">    <span class="keyword">WHEN</span> condition_1 <span class="keyword">THEN</span> new_value_1</span><br><span class="line">    <span class="keyword">WHEN</span> condition_2 <span class="keyword">THEN</span> new_value_2</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">ELSE</span> column_name</span><br><span class="line">  <span class="keyword">END</span></span><br><span class="line"><span class="keyword">WHERE</span> <span class="keyword">condition</span>;</span><br></pre></td></tr></table></figure>
+
+<p>示例：</p>
+<p>假设我们有一个产品编码字段product_code，现在需要根据不同的条件修改其前三位数字。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> products</span><br><span class="line"><span class="keyword">SET</span> product_code <span class="operator">=</span> </span><br><span class="line">  <span class="keyword">CASE</span></span><br><span class="line">    <span class="keyword">WHEN</span> category <span class="operator">=</span> <span class="string">&#x27;A&#x27;</span> <span class="keyword">THEN</span> CONCAT(<span class="string">&#x27;111&#x27;</span>, <span class="built_in">SUBSTRING</span>(product_code, <span class="number">4</span>))</span><br><span class="line">    <span class="keyword">WHEN</span> category <span class="operator">=</span> <span class="string">&#x27;B&#x27;</span> <span class="keyword">THEN</span> CONCAT(<span class="string">&#x27;222&#x27;</span>, <span class="built_in">SUBSTRING</span>(product_code, <span class="number">4</span>))</span><br><span class="line">    <span class="keyword">ELSE</span> product_code</span><br><span class="line">  <span class="keyword">END</span></span><br><span class="line"><span class="keyword">WHERE</span> LENGTH(product_code) <span class="operator">&gt;=</span> <span class="number">3</span>;</span><br></pre></td></tr></table></figure>
+
+<h4 id="使用数字运算"><a href="#使用数字运算" class="headerlink" title="使用数字运算"></a>使用数字运算</h4><p>在某些情况下，我们可以通过数字运算来修改字段的前几位数字，特别是当数字具有规律性时。</p>
+<p>示例：</p>
+<p>假设我们有一个订单号字段order_number，现在需要将其前两位数字加上固定值10。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> orders</span><br><span class="line"><span class="keyword">SET</span> order_number <span class="operator">=</span> order_number <span class="operator">+</span> <span class="number">10</span></span><br><span class="line"><span class="keyword">WHERE</span> order_number <span class="operator">&gt;=</span> <span class="number">1000</span> <span class="keyword">AND</span> order_number <span class="operator">&lt;</span> <span class="number">2000</span>;</span><br></pre></td></tr></table></figure>
+
+<h4 id="使用自定义函数"><a href="#使用自定义函数" class="headerlink" title="使用自定义函数"></a>使用自定义函数</h4><p>如果需要更复杂的操作，可以使用自定义函数来处理数据。</p>
+<p>示例：</p>
+<p>假设我们有一个学生成绩字段grade，现在需要根据特定规则对前两位数字进行调整，比如加上学校代码。</p>
+<p>首先，我们创建一个自定义函数：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">DELIMITER <span class="operator">/</span><span class="operator">/</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">FUNCTION</span> modify_grade(original_grade <span class="type">VARCHAR</span>(<span class="number">10</span>))</span><br><span class="line"><span class="keyword">RETURNS</span> <span class="type">VARCHAR</span>(<span class="number">10</span>)</span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line">    <span class="keyword">DECLARE</span> school_code <span class="type">VARCHAR</span>(<span class="number">2</span>);</span><br><span class="line">    <span class="keyword">SET</span> school_code <span class="operator">=</span> <span class="string">&#x27;AB&#x27;</span>; <span class="comment">-- 假设学校代码为&#x27;AB&#x27;</span></span><br><span class="line">    <span class="keyword">RETURN</span> CONCAT(school_code, <span class="built_in">SUBSTRING</span>(original_grade, <span class="number">3</span>));</span><br><span class="line"><span class="keyword">END</span> <span class="operator">/</span><span class="operator">/</span></span><br><span class="line">DELIMITER ;</span><br></pre></td></tr></table></figure>
+
+<p>然后，我们可以使用这个函数来更新数据：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> students</span><br><span class="line"><span class="keyword">SET</span> grade <span class="operator">=</span> modify_grade(grade)</span><br><span class="line"><span class="keyword">WHERE</span> ...; <span class="comment">-- 添加适当的条件</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h4><p>通过本文的介绍，我们学习了如何使用MySQL来更改数据字段中的前几位数字。无论是使用SUBSTRING函数、REPLACE函数、LEFT函数，还是正则表达式或者CASE语句，都能够轻松地实现这一目标。在实际应用中，根据具体需求选择合适的方法，将会大大提高工作效率。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/MySql/" rel="tag"><i class="fa fa-tag"></i> MySql</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/12/11/Python-%E6%97%B6%E9%97%B4%E5%A4%84%E7%90%86%E4%B8%8E%E6%97%B6%E5%8C%BA%E8%BD%AC%E6%8D%A2%EF%BC%9A%E6%B7%B1%E5%85%A5%E6%8E%A2%E7%A9%B6-datetime%E3%80%81time-%E6%A8%A1%E5%9D%97%E4%B8%8E-pytz-%E5%BA%93%E7%9A%84%E5%8A%9F%E8%83%BD%E4%B8%8E%E5%BA%94%E7%94%A8/" rel="prev" title="Python 时间处理与时区转换：深入探究 datetime、time 模块与 pytz 库的功能与应用">
+      <i class="fa fa-chevron-left"></i> Python 时间处理与时区转换：深入探究 datetime、time 模块与 pytz 库的功能与应用
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2024/05/18/MySQL%E6%8A%80%E6%9C%AF%E6%B7%B1%E5%BA%A6%E8%A7%A3%E6%9E%90%EF%BC%9A%E6%AF%8F%E6%AC%A1%E6%9C%80%E5%A4%A7%E6%8F%92%E5%85%A5%E6%9D%A1%E6%95%B0%E6%8E%A2%E7%A7%98/" rel="next" title="MySQL技术深度解析：每次最大插入条数探秘">
+      MySQL技术深度解析：每次最大插入条数探秘 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BC%95%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8SUBSTRING%E5%87%BD%E6%95%B0"><span class="nav-number">2.</span> <span class="nav-text">使用SUBSTRING函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8REPLACE%E5%87%BD%E6%95%B0"><span class="nav-number">3.</span> <span class="nav-text">使用REPLACE函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8LEFT%E5%92%8CCONCAT%E5%87%BD%E6%95%B0"><span class="nav-number">4.</span> <span class="nav-text">使用LEFT和CONCAT函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-number">5.</span> <span class="nav-text">使用正则表达式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8CASE%E8%AF%AD%E5%8F%A5"><span class="nav-number">6.</span> <span class="nav-text">使用CASE语句</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%95%B0%E5%AD%97%E8%BF%90%E7%AE%97"><span class="nav-number">7.</span> <span class="nav-text">使用数字运算</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E5%87%BD%E6%95%B0"><span class="nav-number">8.</span> <span class="nav-text">使用自定义函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%93%E8%AE%BA"><span class="nav-number">9.</span> <span class="nav-text">结论</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="李伟"
+      src="/images/header.png">
+  <p class="site-author-name" itemprop="name">李伟</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">32</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/lwaxx" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;lwaxx" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://blog.csdn.net/qq_41586251?spm=1011.2124.3001.5343" title="CSDN → https:&#x2F;&#x2F;blog.csdn.net&#x2F;qq_41586251?spm&#x3D;1011.2124.3001.5343" rel="noopener" target="_blank"><i class="fa fa-fw fa-crosshairs"></i>CSDN</a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<!-- 网站运行时间的设置 -->
+<span id="timeDate">载入天数...</span>
+<span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("01/01/2022 00:00:00");//此处修改你的建站时间或者网站上线时间
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+}
+setInterval("createtime()",250);
+</script>
+
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">李伟</span>
+
+
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : true,
+      notify     : false,
+      appId      : 'q5gun1zw8OJ2yTubABSiC1ke-MdYXbMMI',
+      appKey     : 'CMRV8hDtJKjBaMwCKE6u3Yfu',
+      placeholder: "留下您的评论",
+      avatar     : 'mp',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : 'zh-cn' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : true,
+      serverURLs : 'https://q5gun1zw.api.lncldglobal.com'
+    });
+  }, window.Valine);
+
+  var infoEle = document.querySelector('#comments .info');
+  if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0){
+    infoEle.childNodes.forEach(function(item) {
+      item.parentNode.removeChild(item);
+    });
+  }
+});
+</script>
+
+</body>
+</html>
